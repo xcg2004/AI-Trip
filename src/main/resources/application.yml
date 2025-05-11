@@ -1,0 +1,42 @@
+spring:
+  application:
+    name:
+      AI-Trip-Assistant
+  ai:
+    openai:
+      base-url: https://dashscope.aliyuncs.com/compatible-mode
+      api-key: ${OPENAI_API_KEY}
+      chat:
+        options:
+          model: qwen-max-latest
+          temperature: 0.6
+      embedding:
+        api-key: ${OPENAI_API_KEY}
+        options:
+          model: text-embedding-v3
+          dimensions: 1024
+    vectorstore:
+      elasticsearch:
+        initialize-schema: true
+        dimensions: 1024
+        index-name: trip-docs
+    mcp:
+      client:
+        stdio:
+          servers-configuration: classpath:/mcp-server.json
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/hm-item?serverTimezone=UTC&useSSL=false
+    username: root
+    password: root
+  data:
+    redis:
+      host: 127.0.0.1
+      password: 123321
+  elasticsearch:
+    uris: localhost:9200
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 100MB
