@@ -13,11 +13,9 @@ import org.springframework.ai.chat.client.advisor.QuestionAnswerAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.observation.ChatModelObservationConvention;
 import org.springframework.ai.chat.prompt.ChatOptions;
-import org.springframework.ai.embedding.EmbeddingModel;
 import org.springframework.ai.model.SimpleApiKey;
 import org.springframework.ai.model.tool.ToolCallingManager;
 import org.springframework.ai.openai.OpenAiChatModel;
-import org.springframework.ai.openai.OpenAiEmbeddingModel;
 import org.springframework.ai.openai.api.OpenAiApi;
 import org.springframework.ai.tool.ToolCallbackProvider;
 import org.springframework.ai.vectorstore.SearchRequest;
@@ -46,7 +44,6 @@ public class ChatClientConfig {
 
     @Autowired
     private ElasticsearchVectorStore vectorStore;
-
     @Bean
     public ChatMemory chatMemory(){
         return new RedisChatMemory();

@@ -13,7 +13,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @author XCG
  * @since 2025-05-02
  */
-@Mapper
+
 public interface ItemMapper extends BaseMapper<Item> {
 
 }

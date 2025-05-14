@@ -1,6 +1,5 @@
 package com.xcg.aitripassistant.controller;
 
-import com.xcg.aitripassistant.service.RagService;
 import com.xcg.aitripassistant.utils.DocParser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;

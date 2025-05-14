@@ -27,7 +27,7 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/hm-item?serverTimezone=UTC&useSSL=false
+    url: jdbc:mysql://127.0.0.1:3306/ai_trip?serverTimezone=UTC&useSSL=false
     username: root
     password: root
   data:
@@ -40,3 +40,12 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 100MB
+jwt:
+  properties:
+    secret-key: ai-trip-assistant
+    expired: 900000
+    token-name: token
+logging:
+  level:
+    com.xcg.aitripassistant.mapper: debug
+    org.ibatis: debug

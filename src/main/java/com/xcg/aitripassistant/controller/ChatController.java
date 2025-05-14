@@ -4,7 +4,6 @@ import com.xcg.aitripassistant.utils.RedisChatMemory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor;
-import org.springframework.ai.chat.messages.Message;
 import org.springframework.ai.model.Media;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -16,7 +15,6 @@ import reactor.core.publisher.Flux;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/chat")

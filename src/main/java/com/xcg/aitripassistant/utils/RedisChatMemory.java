@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.List;
-import java.util.Set;
 
 public class RedisChatMemory implements ChatMemory {
     private static final String CHAT_MEMORY_KEY = "chatId:";
