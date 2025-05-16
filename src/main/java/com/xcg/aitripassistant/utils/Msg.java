@@ -5,13 +5,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.ai.chat.messages.*;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Msg {
+public class Msg implements Serializable {
     MessageType messageType;
     String text;
     Map<String, Object> metadata;

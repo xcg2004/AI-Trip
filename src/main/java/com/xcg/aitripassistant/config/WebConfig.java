@@ -34,10 +34,10 @@ public class WebConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/user/**"); // 注意加斜杠
     }
 
-    @Override
+    /*@Override
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
         MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
         converter.setObjectMapper(new ObjectMapper());
         converters.add(0, converter);
-    }
+    }*/
 }

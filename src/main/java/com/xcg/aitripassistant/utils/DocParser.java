@@ -28,7 +28,6 @@ public class DocParser {
             String content = switch (fileType) {
                 case "DOCX" -> parseWord(filePath);
                 case "PDF" -> parsePdf(resource);
-
                 case "MD" -> parseMarkdown(filePath);
                 default -> throw new IllegalArgumentException("Unsupported file type: " + fileType);
             };

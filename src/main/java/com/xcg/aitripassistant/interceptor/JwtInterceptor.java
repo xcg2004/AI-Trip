@@ -36,20 +36,19 @@ public class JwtInterceptor implements HandlerInterceptor {
         try {
             log.info("jwt校验:{}", token);
             String userId =  JwtUtils.parseToken(token);
-
             // 检查 Redis 中是否存在登录状态
             Boolean isLogin = redisTemplate.hasKey("user:login:" + userId);
             if (Boolean.FALSE.equals(isLogin)) {
                 response.setStatus(401);
                 return false;
             }
-
             log.info("当前用户id：{}", userId);
             UserHolder.setUser(Long.valueOf(userId));
             //3、通过，放行
             return true;
         } catch (Exception ex) {
             //4、不通过，响应401状态码
+            //ex.printStackTrace();
             response.setStatus(401);
             return false;
         }

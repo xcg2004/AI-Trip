@@ -39,8 +39,8 @@ import java.util.Objects;
 @Configuration
 public class ChatClientConfig {
 
-    @Autowired
-    private TripService tripService;
+   /* @Autowired
+    private TripService tripService;*/
 
     @Autowired
     private ElasticsearchVectorStore vectorStore;
@@ -70,13 +70,13 @@ public class ChatClientConfig {
     }
 
     /**
-     * RAG 本地知识库
+     * RAG 本地知识库(可用于公司内部开发手册快速提问)
      * @param openAiChatModel
      * @param chatMemory
      * @return
      */
     @Bean
-    public ChatClient pdfChatClient(OpenAiChatModel openAiChatModel, ChatMemory chatMemory){
+    public ChatClient docChatClient(OpenAiChatModel openAiChatModel, ChatMemory chatMemory){
         return ChatClient.builder(openAiChatModel)
                 .defaultSystem(DefaultConstant.DEFAULT_RAG_SYSTEM_PROMPT)
                 .defaultAdvisors(

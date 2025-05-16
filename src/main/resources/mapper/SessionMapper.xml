@@ -3,8 +3,18 @@
 <mapper namespace="com.xcg.aitripassistant.mapper.SessionMapper">
 
     <insert id="insertFiveBatch">
-        insert into `session`
-        values(),(),(),(),()
+        insert into `session`(user_id)
+        values(#{user_id}),(#{user_id}),(#{user_id}),(#{user_id}),(#{user_id})
 
+    </insert>
+
+    <select id="selectIds" resultType="java.lang.Long" parameterType="java.lang.Long">
+        select id from session
+        where user_id = #{user_id}
+    </select>
+
+    <insert id="create" keyProperty="id" useGeneratedKeys="true">
+        insert into session(user_id)
+        values (#{userId})
     </insert>
 </mapper>

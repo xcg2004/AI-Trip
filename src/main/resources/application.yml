@@ -17,13 +17,13 @@ spring:
           dimensions: 1024
     vectorstore:
       elasticsearch:
-        initialize-schema: true
-        dimensions: 1024
-        index-name: trip-docs
+        initialize-schema: true  #springAI启动时自动会创建索引
+        dimensions: 1024      # 向量维度(模型必须能支持)
+        index-name: trip-docs # 索引名称
     mcp:
       client:
         stdio:
-          servers-configuration: classpath:/mcp-server.json
+          servers-configuration: classpath:/json/mcp-server.json
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -42,9 +42,9 @@ spring:
       max-request-size: 100MB
 jwt:
   properties:
-    secret-key: ai-trip-assistant
+    secret-key: aitripassistant
     expired: 900000
-    token-name: token
+    tokenName: token
 logging:
   level:
     com.xcg.aitripassistant.mapper: debug

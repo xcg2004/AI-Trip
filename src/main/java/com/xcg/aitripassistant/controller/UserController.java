@@ -5,14 +5,15 @@ import com.xcg.aitripassistant.domain.dto.LoginDTO;
 import com.xcg.aitripassistant.domain.dto.UserRegisterDTO;
 import com.xcg.aitripassistant.service.IUserService;
 import com.xcg.aitripassistant.utils.Result;
+import com.xcg.aitripassistant.utils.UserHolder;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * <p>
@@ -35,7 +36,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/login")
-    public Result<String> login(LoginDTO loginDTO){
+    public Result<String> login(@RequestBody LoginDTO loginDTO){
         log.info("用户登录：{}",loginDTO);
         return userService.login(loginDTO);
     }
@@ -46,7 +47,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/register")
-    public Result<String> register(UserRegisterDTO userRegisterDTO){
+    public Result<String> register(@RequestBody UserRegisterDTO userRegisterDTO){
         log.info("用户注册：{}",userRegisterDTO);
         return userService.register(userRegisterDTO);
     }
@@ -61,4 +62,6 @@ public class UserController {
         log.info("用户注销：{}");
         return userService.logout(request);
     }
+
+
 }

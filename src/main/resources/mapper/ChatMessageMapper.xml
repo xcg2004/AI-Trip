@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xcg.aitripassistant.mapper.ChatMessageMapper">
+
+    <insert id="saveBatch" >
+        insert into chat_message(text, user_id, session_id, message_type, created_at)
+        values 
+            <foreach collection="messages" separator="," item="msg" >
+                (#{msg.text},#{msg.userId},#{msg.sessionId},#{msg.messageType},#{msg.createdAt})
+            </foreach>
+    </insert>
+</mapper>

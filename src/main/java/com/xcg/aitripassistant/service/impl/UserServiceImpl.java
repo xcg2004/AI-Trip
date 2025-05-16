@@ -19,6 +19,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -59,16 +60,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             return Result.fail("密码错误");
         }
 
-        //获取userId，生成token
-        Long userId = user.getId();
-        String token = JwtUtils.generateToken(user.getId().toString());
+        String token = redisTemplate.opsForValue().get("user:login:" + user.getId());
+        if(token == null || token.isBlank()){
+            //获取userId，生成token
+            Long userId = user.getId();
+            token = JwtUtils.generateToken(user.getId().toString());
+            //redis存入该用户状态 ttl=token
+            redisTemplate.opsForValue().setIfAbsent(
+                    "user:login:"+user.getId(),
+                    token ,
+                    15,
+                    TimeUnit.MINUTES);
 
-        //redis存入该用户状态。ttl=token
-        redisTemplate.opsForValue().setIfAbsent(
-                "user:login:"+user.getId(),
-                String.valueOf(1),
-                15,
-                TimeUnit.MINUTES);
+        }
 
         return Result.success(token);
     }
@@ -82,7 +86,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         user.setPassword(Md5Util.md5(userRegisterDTO.getPassword()));
         userMapper.insert(user);
         //2.创建5个会话，分配给用户
-        sessionMapper.insertFiveBatch();
+        sessionMapper.insertFiveBatch(user.getId());
         return Result.success();
     }
 
@@ -109,4 +113,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
         return Result.success();
     }
+
+
 }

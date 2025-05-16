@@ -19,49 +19,39 @@ import java.io.Serializable;
  * @author XCG
  * @since 2025-05-14
  */
-@TableName("user")
+@TableName("chat_message")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class User implements Serializable {
+public class ChatMessage implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * 用户ID
+     * 消息ID
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     /**
-     * 用户名
+     * 消息内容
      */
-    private String username;
+    private String text;
 
     /**
-     * 加密密码
+     * 用户ID
      */
-    private String password;
+    private Long userId;
 
     /**
-     * 头像URL
+     * 会话ID
      */
-    private String avatarUrl;
+    private Long sessionId;
 
     /**
-     * 昵称
+     * 发送者类型
      */
-    private String nickname;
-
-    /**
-     * 电子邮箱
-     */
-    private String email;
-
-    /**
-     * 账户状态，1代表正常，0代表冻结
-     */
-    private Integer status;
+    private String messageType;
 
     /**
      * 创建时间
@@ -74,5 +64,6 @@ public class User implements Serializable {
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedAt;
+
 
 }

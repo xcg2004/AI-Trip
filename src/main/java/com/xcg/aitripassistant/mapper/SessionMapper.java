@@ -1,7 +1,10 @@
 package com.xcg.aitripassistant.mapper;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xcg.aitripassistant.domain.po.Session;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,5 +16,9 @@ import com.xcg.aitripassistant.domain.po.Session;
  */
 public interface SessionMapper extends BaseMapper<Session> {
 
-    void insertFiveBatch();
+    void insertFiveBatch(Long userId);
+
+    List<Long> selectIds(Long userId);
+
+    void create(Session session);
 }

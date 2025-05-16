@@ -7,6 +7,8 @@ import com.xcg.aitripassistant.domain.po.User;
 import com.xcg.aitripassistant.utils.Result;
 import jakarta.servlet.http.HttpServletRequest;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -22,4 +24,6 @@ public interface IUserService extends IService<User> {
     Result<String> register(UserRegisterDTO userRegisterDTO);
 
     Result<String> logout(HttpServletRequest request);
+
+
 }

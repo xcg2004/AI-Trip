@@ -15,10 +15,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/pdf")
 @Slf4j
-public class PdfController {
+public class DocController {
 
     @Autowired
-    private ChatClient pdfChatClient;
+    private ChatClient docChatClient;
 
     /*@Autowired
     private RagService ragService;*/
@@ -26,10 +26,13 @@ public class PdfController {
     @Autowired
     private ElasticsearchVectorStore vectorStore;
 
-
+    /**
+     * 读取类路径下的文件并写入Elastic Search
+     * @param path
+     */
     @PostMapping("/ingest/{path}")
-    public void ingestPDF(@PathVariable String path) {
-        log.info("读取pdf并向量化写入Elastic Search:{}", path);
+    public void ingestDoc(@PathVariable String path) {
+        log.info("读取文档并向量化写入Elasticsearch:{}", path);
 //        ragService.ingestPDF(path);
         Document doc = DocParser.parse(path);
 
@@ -40,7 +43,7 @@ public class PdfController {
     public Flux<String> query(@RequestParam("query") String query,
                               @RequestParam("chatId") String chatId) {
         log.info("查询向量数据库相似文档:{}", query);
-        return pdfChatClient.prompt()
+        return docChatClient.prompt()
                 .user(query)
                 .advisors(a->a.param(AbstractChatMemoryAdvisor.CHAT_MEMORY_CONVERSATION_ID_KEY,chatId))
                 .stream()

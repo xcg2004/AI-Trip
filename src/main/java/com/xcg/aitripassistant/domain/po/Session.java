@@ -3,6 +3,12 @@ package com.xcg.aitripassistant.domain.po;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
 import java.io.Serializable;
 
@@ -15,6 +21,10 @@ import java.io.Serializable;
  * @since 2025-05-14
  */
 @TableName("session")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Session implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -33,62 +43,18 @@ public class Session implements Serializable {
     /**
      * 会话是否活跃
      */
-    private Integer active;
+    private Long userId;
 
     /**
      * 创建时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
 
     /**
      * 更新时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedAt;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-    public Integer getActive() {
-        return active;
-    }
-
-    public void setActive(Integer active) {
-        this.active = active;
-    }
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    @Override
-    public String toString() {
-        return "Session{" +
-            "id=" + id +
-            ", title=" + title +
-            ", active=" + active +
-            ", createdAt=" + createdAt +
-            ", updatedAt=" + updatedAt +
-        "}";
-    }
 }
