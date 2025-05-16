@@ -249,39 +249,53 @@ import Message from './Message.vue'
     // this.$notify.error({ title: '错误', message: error.message });
   }
 },
+      handleFileSelect(event) {
+        const files = event.target.files;
+        if (files.length > 0) {
+          this.previewImage = URL.createObjectURL(files[0]);
+          this.selectedFiles = Array.from(files);
+        }
+      },
       async sendMessage() {
-        
-          const userMessage = { text: this.inputMessage, messageType: 'USER' };
-          this.messages[this.activeChat].push(userMessage);
-          this.inputMessage = '';
-
-          const response = await fetch(`http://localhost:8080/chat/${this.activeChat}?question=${userMessage.text}`, {
-            method: 'POST',
-            headers: {
-              'token': `${localStorage.getItem('token')}`
-            }
+        const formData = new FormData();
+        formData.append('question', this.inputMessage);
+        if (this.selectedFiles.length > 0) {
+          this.selectedFiles.forEach(file => {
+            formData.append('files', file);
           });
+        }
 
-          const reader = response.body.getReader();
-          const decoder = new TextDecoder();
-          let assistantMessage = '';
+        const userMessage = { text: this.inputMessage, messageType: 'USER' };
+        this.messages[this.activeChat].push(userMessage);
+        this.inputMessage = '';
 
-          while (true) {
-            const { done, value } = await reader.read();
-            if (done) break;
+        const response = await fetch(`http://localhost:8080/chat/${this.activeChat}`, {
+          method: 'POST',
+          headers: {
+            'token': `${localStorage.getItem('token')}`
+          },
+          body: formData
+        });
 
-            const chunk = decoder.decode(value, { stream: true });
-            assistantMessage += chunk;
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        let assistantMessage = '';
 
-            // Update the last message in messages array
-            const messages = this.messages[this.activeChat];
-            const lastMessage = messages[messages.length - 1];
-            if (lastMessage && lastMessage.messageType === 'ASSISTANT') {
-              lastMessage.text = assistantMessage;
-            } else {
-              this.messages[this.activeChat].push({ text: assistantMessage, messageType: 'ASSISTANT' });
-            }
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          const chunk = decoder.decode(value, { stream: true });
+          assistantMessage += chunk;
+
+          const messages = this.messages[this.activeChat];
+          const lastMessage = messages[messages.length - 1];
+          if (lastMessage && lastMessage.messageType === 'ASSISTANT') {
+            lastMessage.text = assistantMessage;
+          } else {
+            this.messages[this.activeChat].push({ text: assistantMessage, messageType: 'ASSISTANT' });
           }
+        }
       }
 },
   created() {
