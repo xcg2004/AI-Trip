@@ -2,28 +2,35 @@ package com.xcg.aitripassistant;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch.core.SearchRequest;
+import com.drew.imaging.ImageMetadataReader;
+import com.drew.imaging.ImageProcessingException;
+import com.drew.metadata.Metadata;
+import com.drew.metadata.exif.ExifSubIFDDirectory;
+import com.drew.metadata.exif.GpsDirectory;
 import com.xcg.aitripassistant.domain.po.ChatMessage;
 import com.xcg.aitripassistant.service.TripService;
 import com.xcg.aitripassistant.task.PersistTask;
 import com.xcg.aitripassistant.utils.DocParser;
+import com.xcg.aitripassistant.utils.ImageParser;
 import com.xcg.aitripassistant.utils.RedisParser;
 import org.junit.jupiter.api.Test;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.vectorstore.elasticsearch.ElasticsearchVectorStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.StreamSupport;
 
 @SpringBootTest
 class AiTripAssistantApplicationTests {
@@ -146,5 +153,13 @@ class AiTripAssistantApplicationTests {
                 ZoneId.of("Asia/Shanghai")
         );
         System.out.println(localDateTime);
+    }
+
+    @Test
+    public void testImageExtract() throws ImageProcessingException, IOException {
+        Document document = ImageParser.parse("static/西湖.jpg");
+        //System.out.println(document.toString());
+        vectorStore.doAdd(List.of(document));
+
     }
 }

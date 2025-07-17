@@ -22,24 +22,11 @@ CREATE TABLE `session` (
                            `id` BIGINT PRIMARY KEY AUTO_INCREMENT COMMENT '会话ID',
                            `title` VARCHAR(100) COMMENT '会话标题',
                            `user_id` BIGINT NOT NULL COMMENT '用户ID',
-#                            `active` int DEFAULT 0 COMMENT '会话是否活跃',
                            `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
                            `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-#                            INDEX `idx_active_sessions` (`active`)
                            INDEX  `idx_user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- 用户会话关联表
-/*CREATE TABLE `user_session` (
-                                `user_id` BIGINT NOT NULL COMMENT '用户ID',
-                                `session_id` BIGINT NOT NULL COMMENT '会话ID',
-                                `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-                                `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-                                PRIMARY KEY (`user_id`, `session_id`),
-#                                 FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON DELETE CASCADE,
-#                                 FOREIGN KEY (`session_id`) REFERENCES `session`(`id`) ON DELETE CASCADE,
-                                INDEX `idx_user_sessions` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;*/
 
 -- 消息表
 CREATE TABLE `chat_message` (
@@ -50,20 +37,10 @@ CREATE TABLE `chat_message` (
                                 `message_type` ENUM('user', 'assistant') NOT NULL DEFAULT 'user' COMMENT '发送者类型',
                                 `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
                                 `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-                                INDEX `idx_session_created` (`session_id`,`created_at`),
                                 Unique INDEX `idx_user_session_created` (`session_id`,`created_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-/*-- 会话消息关联表
-CREATE TABLE `session_message` (
-                                   `session_id` BIGINT NOT NULL COMMENT '会话ID',
-                                   `message_id` BIGINT NOT NULL COMMENT '消息ID',
-                                   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-                                   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-                                   PRIMARY KEY (`session_id`, `message_id`)
-#                                    FOREIGN KEY (`session_id`) REFERENCES `session`(`id`) ON DELETE CASCADE,
-#                                    FOREIGN KEY (`message_id`) REFERENCES `chat_message`(`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;*/
+
 
 -- 用户偏好表
 CREATE TABLE `preference` (

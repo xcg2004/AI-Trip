@@ -47,7 +47,7 @@ public class RedisChatMemory implements ChatMemory {
             //size = 105条，则删除0~4，还剩100条
             redisTemplate.opsForZSet().removeRange(key, 0, zSetSize - 101);
         }
-
+       
         //   redisTemplate.opsForList().rightPushAll(key, list);
 
     }

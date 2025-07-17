@@ -34,24 +34,18 @@ public class RedisParser {
         List<ChatMessage> messages = new ArrayList<>();
         Set<ZSetOperations.TypedTuple<String>> typedTuples = redisTemplate.opsForZSet().rangeWithScores(key, 0, -1);
         for (ZSetOperations.TypedTuple<String> typedTuple : typedTuples) {
-
             //ZSet add key score member/value
             //member
             String value = typedTuple.getValue();
-
             //1.747305966391E12,需要格式化转换
             Double score = typedTuple.getScore();
             long timestampMillis = score.longValue(); // 毫秒时间戳
-
             // ✅ 使用 Instant.fromEpochMilli() 来正确解析
             LocalDateTime localDateTime = LocalDateTime.ofInstant(
                     Instant.ofEpochMilli(timestampMillis),
                     ZoneId.of("Asia/Shanghai")
             );
-
-
             //     localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-
             //解析key，得到chatId->sessionId->查询userId
             String chatId = key.substring(key.indexOf(":")+1);
             Session session = sessionMapper.selectById(chatId);

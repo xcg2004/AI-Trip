@@ -63,8 +63,11 @@ public class ChatClientConfig {
                 .defaultSystem(DefaultConstant.DEFAULT_CHAT_SYSTEM_PROMPT)
                 .defaultOptions(ChatOptions.builder().model("qwen-omni-turbo").build())
                 .defaultAdvisors(
-                        new MessageChatMemoryAdvisor(chatMemory)
-                )
+                        new MessageChatMemoryAdvisor(chatMemory),
+                        new QuestionAnswerAdvisor(vectorStore, SearchRequest.builder()
+                            .similarityThreshold(0.3)
+                            .topK(3)
+                            .build()))
                 .defaultTools(toolCallbackProvider)
                 .build();
     }
